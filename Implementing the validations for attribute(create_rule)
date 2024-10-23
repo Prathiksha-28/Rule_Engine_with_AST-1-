@@ -1,0 +1,50 @@
+Step by step implementation
+1.Define the attribute catalog:
+ATTRIBUTE_CATALOG = {
+    "age": "integer",
+    "department": "string",
+    "salary": "integer",
+    "experience": "integer",
+    "spend": "integer"
+}
+
+2. Validate Functions
+import re
+
+def validate_rule_format(rule_string):
+    # Check for basic structure: ensure it contains at least one operator and valid brackets
+    if not re.match(r'^[\s\(\)a-zA-Z0-9><=+\-*/]+(AND|OR)[\s\(\)a-zA-Z0-9><=+\-*/]+$', rule_string):
+        raise ValueError("Invalid rule format. Ensure proper usage of AND/OR and parentheses.")
+
+def validate_attributes(tokens):
+    for token in tokens:
+        if token in ATTRIBUTE_CATALOG:
+            continue  # Valid attribute
+        elif re.match(r'^[a-zA-Z_][a-zA-Z0-9_]*$', token):
+            raise ValueError(f"Attribute '{token}' is not defined in the attribute catalog.")
+
+def validate_operators(tokens):
+    valid_operators = {"AND", "OR", ">", "<", ">=", "<=", "=", "!="}
+    for i, token in enumerate(tokens):
+        if token in valid_operators:
+            # Ensure operators are not at the beginning or end, and not back-to-back
+            if i == 0 or i == len(tokens) - 1 or (i > 0 and tokens[i - 1] in valid_operators):
+                raise ValueError(f"Invalid operator placement: '{token}'")
+
+3. Integrating Validation into Rule Creation (create_rule)
+def tokenize(rule_string):
+    tokens = re.findall(r'\w+|[<>]=?|[()]+|AND|OR', rule_string)
+    return tokens
+
+def create_rule(rule_string):
+    # Validate rule format
+    validate_rule_format(rule_string)
+    
+    # Tokenize and validate attributes and operators
+    tokens = tokenize(rule_string)
+    validate_attributes(tokens)
+    validate_operators(tokens)
+    
+    # Build AST (assuming build_ast is already defined)
+    ast = build_ast(tokens)
+    return ast
