@@ -1,0 +1,21 @@
+class FunctionRegistry:
+    def __init__(self):
+        self.functions = {}
+
+    def register(self, name, func):
+        self.functions[name] = func
+
+    def call(self, name, *args):
+        if name not in self.functions:
+            raise ValueError(f"Function {name} not defined.")
+        return self.functions[name](*args)
+
+# Example of a user-defined function
+def is_sales(department):
+    return department == "Sales"
+
+# Register the function
+function_registry = FunctionRegistry()
+function_registry.register('is_sales', is_sales)
+
+# Evaluating function calls in the AST would require additional parsing logic.
