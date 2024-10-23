@@ -1,0 +1,23 @@
+1. create_rule(rule_string)
+
+ def create_rule(rule_string):
+    # Parsing logic to create the AST
+    pass  # Implement parsing logic herr
+    
+2. combine_rules(rules)
+
+ def combine_rules(rules):
+    # Logic to combine rules into one AST
+    pass  # Implement combination logic here
+
+3. evaluate_rule(ast_root, data)
+
+def evaluate_rule(ast_root, data):
+    # Recursively evaluate the AST
+    pass  # Implement evaluation logic here
+
+
+
+
+
+
