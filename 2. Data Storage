@@ -9,3 +9,13 @@ CREATE TABLE attributes (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL
 );
+
+- Sample DATA
+INSERT INTO rules (rule_string) VALUES
+('((age > 30 AND department = ''Sales'') OR (age < 25 AND department = ''Marketing'')) AND (salary > 50000 OR experience > 5)'),
+('((age > 30 AND department = ''Marketing'')) AND (salary > 20000 OR experience > 5)');
+
+INSERT INTO attributes (name) VALUES
+('age'), ('department'), ('salary'), ('experience');
+
+
