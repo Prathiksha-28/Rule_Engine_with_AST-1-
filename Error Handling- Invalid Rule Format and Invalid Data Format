@@ -1,12 +1,10 @@
-class RuleParsingError(Exception):
-    pass
+def validate_rule_string(rule_string):
+    # Basic validation for rule structure (could be more comprehensive)
+    if not re.match(r'^[\s\(\)a-zA-Z0-9><=]+\s+(AND|OR)\s+.*$', rule_string):
+        raise ValueError("Invalid rule string format.")
 
-class InvalidRuleFormatError(RuleParsingError):
-    pass
-
-class InvalidComparisonError(RuleParsingError):
-    pass
-
-def validate_rule(rule_string):
-    # Implement validation for rule format
-    pass
+def create_rule(rule_string):
+    validate_rule_string(rule_string)
+    tokens = tokenize(rule_string)
+    ast = build_ast(tokens)
+    return ast
