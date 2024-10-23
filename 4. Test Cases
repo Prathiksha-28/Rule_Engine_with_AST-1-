@@ -1,0 +1,17 @@
+1. Creating Individual Rules:
+
+rule1_ast = create_rule("((age > 30 AND department = 'Sales') OR (age < 25 AND department = 'Marketing')) AND (salary > 50000 OR experience > 5)")
+assert isinstance(rule1_ast, Node)  # Ensure it's a Node
+
+2. Combining Rules:
+
+combined_ast = combine_rules([rule1_string, rule2_string])
+assert isinstance(combined_ast, Node)  # Ensure combined result is a Node
+
+3. Evaluating Rules:
+
+data = {"age": 35, "department": "Sales", "salary": 60000, "experience": 3}
+assert evaluate_rule(rule1_ast, data) is True
+
+
+
