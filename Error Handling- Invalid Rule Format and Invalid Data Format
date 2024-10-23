@@ -1,0 +1,12 @@
+class RuleParsingError(Exception):
+    pass
+
+class InvalidRuleFormatError(RuleParsingError):
+    pass
+
+class InvalidComparisonError(RuleParsingError):
+    pass
+
+def validate_rule(rule_string):
+    # Implement validation for rule format
+    pass
