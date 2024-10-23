@@ -1,0 +1,74 @@
+1. src/rule_engine.py
+
+from ast import create_rule, combine_rules, evaluate_rule
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/create_rule', methods=['POST'])
+def create_rule_endpoint():
+    rule_string = request.json['rule_string']
+    ast = create_rule(rule_string)
+    return jsonify(ast.to_dict()), 201
+
+@app.route('/combine_rules', methods=['POST'])
+def combine_rules_endpoint():
+    rules = request.json['rules']
+    combined_ast = combine_rules(rules)
+    return jsonify(combined_ast.to_dict()), 201
+
+@app.route('/evaluate_rule', methods=['POST'])
+def evaluate_rule_endpoint():
+    ast_root = request.json['ast']
+    data = request.json['data']
+    result = evaluate_rule(ast_root, data)
+    return jsonify({"result": result}), 200
+
+2. src/ast.py
+
+class Node:
+    def __init__(self, node_type, left=None, right=None, value=None):
+        self.node_type = node_type
+        self.left = left
+        self.right = right
+        self.value = value
+
+    def to_dict(self):
+        return {
+            "type": self.node_type,
+            "left": self.left.to_dict() if self.left else None,
+            "right": self.right.to_dict() if self.right else None,
+            "value": self.value
+        }
+3. Dockerfile
+
+FROM python:3.9-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY ./src ./src
+COPY ./tests ./tests
+
+CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]
+
+4. docker-compose.yml
+
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: rule_engine
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
