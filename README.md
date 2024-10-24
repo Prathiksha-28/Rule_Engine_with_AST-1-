@@ -19,6 +19,16 @@ This is a 3-tier rule engine application designed to determine user eligibility 
    
 ## Access API at: http://localhost:5000
 
+## Docker Setup
+``markdown
+- **Dockerfile**: Defines the application container build process.
+- **docker-compose.yml**: Sets up services, including the API and PostgreSQL database.
+
+#### API Endpoints
+- `POST /create_rule`: Create a new rule from a rule string.
+- `POST /combine_rules`: Combine multiple rules into a single AST.
+- `POST /evaluate_rule`: Evaluate an AST against provided user data.
+
 #### Dependencies
 ```markdown
 - Python 3.x
@@ -29,18 +39,8 @@ This is a 3-tier rule engine application designed to determine user eligibility 
 - PostgreSQL
 
 To install Python dependencies, run:
-```bash
+````
 pip install -r requirements.txt
-
-#### Docker Setup
-```markdown
-- **Dockerfile**: Defines the application container build process.
-- **docker-compose.yml**: Sets up services, including the API and PostgreSQL database.
-
-#### API Endpoints
-- `POST /create_rule`: Create a new rule from a rule string.
-- `POST /combine_rules`: Combine multiple rules into a single AST.
-- `POST /evaluate_rule`: Evaluate an AST against provided user data.
 
 #### Testing
 To run tests, ensure you have `pytest` installed. Execute:
